@@ -30,7 +30,7 @@ from vsdlib.contrib.quicksilver import (
 )
 from vsdlib.widgets import MediaControlWidget, DiscordWidget, ClockWidget
 
-from ed_streamdeck import EliteDangerousLayout
+# from ed_streamdeck import EliteDangerousLayout
 
 from widgets import (
     # VolumeWidget,
@@ -114,7 +114,7 @@ async def run_main():
     # main_layout_button: Button = main_layout.create_return_button(board, "< Home")
 
     calc = CalcLayout(board, main_layout)
-    elite_dangerous = EliteDangerousLayout(board, main_layout)
+    # elite_dangerous = EliteDangerousLayout(board, main_layout)
     position_layout = PositionLayout(board, main_layout)
     alphabet_layout = AlphabetLayout(board, main_layout)
     # timer = TimerLayout(board, main_layout)
@@ -160,7 +160,7 @@ async def run_main():
     main_layout.set(calc.button,             3, 0)
     main_layout.set(bluetooth.button,        1, 0)
     main_layout.set(minimize_button,         2, 0)
-    main_layout.set(elite_dangerous.button,  5, 1)
+    # main_layout.set(elite_dangerous.button,  5, 1)
 
     # main_layout.set(TODO.button, 4)
     main_layout.set(create_restart_button(board, style=ButtonStyle(**reds, image_path=get_asset_path('restart.jpg'))), 7, 0)

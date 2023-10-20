@@ -130,7 +130,7 @@ files = [
 
 [[package]]
 name = "ed-streamdeck"
-version = "0.1.0"
+version = "0.1.2"
 description = ""
 optional = false
 python-versions = "^3.11"
@@ -677,7 +677,7 @@ streamdeck = {git = "git@github.com:abcminiuser/python-elgato-streamdeck.git", t
 type = "git"
 url = "ssh://git@github.com/violet4/vsdlib.git"
 reference = "HEAD"
-resolved_reference = "93ac5eb34eeb56991e000ec5aaff57fcf001a097"
+resolved_reference = "4284614d0ec2a0e286b4fc8d3c259ca10a0b171e"
 
 [metadata]
 lock-version = "2.0"

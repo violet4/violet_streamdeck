@@ -4,12 +4,24 @@ import time
 
 #import alsaaudio
 
+from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QVBoxLayout, QPlainTextEdit
+from PyQt5.QtWidgets import QWidget, QShortcut, QApplication, QMessageBox
+from PyQt5.QtWidgets import QApplication,QWidget,QTextEdit,QVBoxLayout,QPushButton
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtGui import QKeySequence
+
 from vsdlib.widgets import Widget
 from vsdlib.buttons import Button
 from vsdlib.button_style import ButtonStyle
-from vsdlib.board import Board
+from vsdlib.board import Board, BoardLayout
+from vsdlib.contrib.todos import Session, Todo
+from vsdlib.colors import greens, blues
 
 from utils import get_asset_path
+
+
+
+from typing import List
 
 
 # class VolumeWidget(Widget):
@@ -163,3 +175,130 @@ class BrightnessWidget(Widget):
 
     def make_change_brightness_down_callback(self):
         return self.make_change_brightness_callback(-10)
+
+
+class TextInputDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        
+        self.setWindowTitle('Text Input Dialog')
+        self.input_label = QLabel('Enter your text:')
+        self.text_input = QTextEdit()
+        self.cancel_button = QPushButton('Cancel')
+        self.submit_button = QPushButton('Submit')
+        
+        layout = QVBoxLayout()
+        layout.addWidget(self.input_label)
+        layout.addWidget(self.text_input)
+        layout.addWidget(self.cancel_button)
+        layout.addWidget(self.submit_button)
+        self.setLayout(layout)
+        
+        self.cancel_button.clicked.connect(self.reject)
+        self.submit_button.clicked.connect(self.accept)
+        
+        self.submit_button.setDefault(True)
+        
+        # Create a shortcut for submitting the text input
+        submit_shortcut = QShortcut(QKeySequence('Ctrl+Return'), self)
+        submit_shortcut.activated.connect(self.submit)
+        submit_shortcut = QShortcut(QKeySequence('Alt+Return'), self)
+        submit_shortcut.activated.connect(self.submit)
+        
+    def submit(self):
+        self.accept()
+        
+    def get_text(self):
+        result = self.exec_()
+        text = self.text_input.toPlainText() if result == QDialog.Accepted else None
+        return text
+
+
+def get_text_input(parent=None):
+    dialog = TextInputDialog(parent)
+    return dialog.get_text()
+
+
+class ListWidget(Widget):
+    new_task_button: Button
+    layout: BoardLayout
+    tasks: List[Button]
+    task_id: int
+    def __init__(self, layout:BoardLayout, board:Board, style:ButtonStyle=ButtonStyle()):
+        super().__init__(board, style)
+        self.layout = layout
+        self.tasks = []
+
+        # tasks = [
+        #     'litter',
+        #     'chx',
+        #     'taters',
+        #     'kitty\nwater',
+        #     'moak\nstory\nfollowup',
+        # ]
+        with Session() as sess:
+            todos: List[Todo] = sess.query(Todo).all()
+            for todo in todos:
+                self.add_task_button(int(todo.tid), str(todo.name), refresh=False)  # type: ignore
+
+        self.layout.refresh()
+
+        self.new_task_button = Button(
+            self.create_add_task_callback(layout), text="+Task",
+            style=ButtonStyle(**greens),
+        )
+        self.task_id = 0
+
+    def redraw_layout(self):
+        for i, task_button in enumerate(self.tasks):
+            # print(f"setting {i+2} to {task_button.text}")
+            self.layout.set(task_button, i+2)
+        for j in range(len(self.tasks)+2, self.board.key_count):
+            # print(f"setting {j} to empty button")
+            # print(f"self.layout.set(Button(), j({j}))")
+            self.layout.set(Button(), j)
+        self.layout.refresh()
+
+    def create_delete_task_handler(self, button:Button, task_id:int):
+        def delete_task(_, _2, pressed:bool):
+            if not pressed:
+                return
+            # print('before self.tasks.remove(button):', self.tasks)
+            print(f"removing button: {button.text}")
+            with Session() as sess:
+                sess.query(Todo).where(Todo.tid==task_id).delete()
+                sess.commit()
+
+            self.tasks.remove(button)
+            # print('after self.tasks.remove(button):', self.tasks)
+            # print('before redraw_layout')
+            # print([b.text for b in self.tasks])
+            self.redraw_layout()
+            # print('after redraw_layout')
+        return delete_task
+
+    def create_task_button(self, task_id:int, task_text:str, style:ButtonStyle=ButtonStyle(**blues)):
+        button = Button(text=task_text, style=style)
+        button.fn = self.create_delete_task_handler(button, task_id)
+        return button
+
+    def add_task_button(self, task_id:int, task_text:str, refresh:bool=True):
+        new_task_button = self.create_task_button(task_id, task_text)
+        self.tasks.append(new_task_button)
+        self.layout.set(new_task_button, len(self.tasks)+1)
+        if refresh:
+            self.layout.refresh()
+
+    def create_add_task_callback(self, layout:BoardLayout):
+        def new_task_button(pressed:bool):
+            if not pressed:
+                return
+
+            text = get_text_input()
+            if text is not None:
+                with Session() as sess:
+                    todo = Todo(name=text)
+                    sess.add(todo)
+                    sess.commit()
+                    self.add_task_button(int(todo.tid), text)  # type: ignore
+        return new_task_button
