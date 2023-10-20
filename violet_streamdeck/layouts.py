@@ -1,26 +1,12 @@
 import threading
 import time
 
-from vsdlib.board import Board, BoardLayout
+from vsdlib.board import Board, BoardLayout, SubLayout
 from vsdlib.buttons import Button, ButtonStyle
 from vsdlib.colors import reds, oranges, yellows, greens, blues, purples, black, pinks, indigos, violets
+from vsdlib.widgets import CalculatorWidget, BluetoothWidget, KeyPadWidget, ListWidget, VSCodeWidget
 
 from utils import get_asset_path
-from widgets import CalculatorWidget, BluetoothWidget, KeyPadWidget, ListWidget, VSCodeWidget
-
-
-class SubLayout(BoardLayout):
-    def __init__(
-        self, board_name:str, board:Board, from_layout:BoardLayout,
-        button_style:ButtonStyle=ButtonStyle(**blues),
-    ):
-        super().__init__()
-        new_layout, button, return_button = from_layout.sublayout(
-            board, board_name, style=button_style
-        )
-        self.layout = new_layout
-        self.button = button
-        self.return_button = return_button
 
 
 class TimerLayout(SubLayout):

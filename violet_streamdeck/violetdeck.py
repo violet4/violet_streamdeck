@@ -22,16 +22,16 @@ from vsdlib.buttons import Button, ButtonStyle
 from vsdlib.colors import reds, oranges, yellows, greens, blues, purples, black, pinks, indigos, violets
 
 from vsdlib.contrib.quicksilver import (
+    options,
     activate_terminal, activate_thunderbird, activate_firefox,
     activate_thunar, activate_pavucontrol,
     minimize_current_window, activate_joplin, activate_keepassxc,
     activate_discord, activate_gimp, activate_minecraft
 )
-from vsdlib.contrib import quicksilver
+from vsdlib.widgets import MediaControlWidget, DiscordWidget, ClockWidget
 
 from widgets import (
-    VolumeWidget, BrightnessWidget, MediaControlWidget, DiscordWidget,
-    ClockWidget
+    VolumeWidget, BrightnessWidget, 
 )
 from layouts import (
     TimerLayout, CalcLayout, PositionLayout, AlphabetLayout, BluetoothLayout, NumpadLayout, NotesLayout,
@@ -47,7 +47,7 @@ def create_restart_button(board:Board, style:ButtonStyle=ButtonStyle()):
     def restart_streamdeck():
         print("RESTARTING!!!!!!!")
         board.close()
-        env_file = quicksilver.options['environment_file']
+        env_file = options['environment_file']
         env_file = f'--environment-file "{env_file}"' if env_file else ''
         os.system(f'cd /home/violet/git/violet/vsdlib/ ; pipenv run python violetdeck.py {env_file}')
         # self.shutdown = True
@@ -266,7 +266,7 @@ if __name__ == '__main__':
     pargs = parse_arguments()
     if pargs.environment_file is not None:
         logger.debug("received environment file '%s'", pargs.environment_file)
-        quicksilver.options['environment_file'] = pargs.environment_file
+        options['environment_file'] = pargs.environment_file
     else:
         logger.debug('received no env file')
 

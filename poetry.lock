@@ -144,7 +144,7 @@ vsdlib = {git = "ssh://git@github.com/violet4/vsdlib.git"}
 type = "git"
 url = "ssh://git@github.com/violet4/ed_streamdeck.git"
 reference = "HEAD"
-resolved_reference = "a9e879ebf8c5a63dd2d1c4ffbf5f20fdf5210c6e"
+resolved_reference = "6b61301bb7ea08f1f06e71e19b21f6aa125f1c00"
 
 [[package]]
 name = "emoji"
@@ -549,7 +549,7 @@ streamdeck = {git = "git@github.com:abcminiuser/python-elgato-streamdeck.git", t
 type = "git"
 url = "ssh://git@github.com/violet4/vsdlib.git"
 reference = "HEAD"
-resolved_reference = "8847cd3465cb1ce514cfcf51de434a2b3d409067"
+resolved_reference = "b234d19632e3f7b2adc9ec7495a9799cc2d25a59"
 
 [metadata]
 lock-version = "2.0"
