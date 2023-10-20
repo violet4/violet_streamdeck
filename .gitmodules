@@ -1,0 +1,3 @@
+[submodule "ed_streamdeck"]
+	path = ed_streamdeck
+	url = git@github.com:violet4/ed_streamdeck.git

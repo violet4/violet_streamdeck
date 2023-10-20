@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 vsdlib = {git = "ssh://git@github.com/violet4/vsdlib.git"}
-ed-streamdeck = {git = "ssh://git@github.com/violet4/ed_streamdeck.git"}
+ed-streamdeck = {path = "ed_streamdeck", develop = true}
 pillow = "^10.1.0"
 requests = "^2.31.0"
 pyqt5 = "5.15.2"

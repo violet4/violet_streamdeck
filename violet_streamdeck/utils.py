@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-import os
-
-assets_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets')
+from vsdlib.utils import create_get_asset_path
 
 
-def get_asset_path(filename:str):
-    return os.path.join(assets_folder, filename)
+get_asset_path = create_get_asset_path(__file__)
