@@ -33,7 +33,7 @@ from vsdlib.widgets import MediaControlWidget, DiscordWidget, ClockWidget
 # from ed_streamdeck import EliteDangerousLayout
 
 from widgets import (
-    # VolumeWidget,
+    VolumeWidget,
     BrightnessWidget,
 )
 from layouts import (
@@ -128,7 +128,7 @@ async def run_main():
     vscode = VSCodeLayout(board, main_layout)
 
     brightness_widget = BrightnessWidget(board, style=ButtonStyle(**yellows))
-    # volume_widget = VolumeWidget(board, style=ButtonStyle(**oranges))
+    volume_widget = VolumeWidget(board, style=ButtonStyle(**oranges))
     media_control_widget = MediaControlWidget()
     discord_widget = DiscordWidget(board, style=ButtonStyle(**pinks))
     clock_widget = ClockWidget(board)
@@ -177,10 +177,10 @@ async def run_main():
     dim = brightness_widget.brightness_down_button
     brighten = brightness_widget.brightness_up_button
 
-    # volume = volume_widget.display_volume_button
+    volume = volume_widget.display_volume_button
     toggle_discord_mute = discord_widget.toggle_mute_button
-    # louder = volume_widget.increase_volume_button
-    # quieter = volume_widget.decrease_volume_button
+    louder = volume_widget.increase_volume_button
+    quieter = volume_widget.decrease_volume_button
     alphabet = alphabet_layout.button
 
     main_layout.set(toggle_discord_mute,         7, 1)
@@ -219,7 +219,7 @@ async def run_main():
     layout = [
         ((dim,     6, 1), (brightness, 6, 2), (brighten, 6, 3)),
         ((back,    1, 1), (pp,         1, 2), (forward,  1, 3)),
-        # ((quieter, 0, 1), (volume,     0, 2), (louder,   0, 3)),
+        ((quieter, 0, 1), (volume,     0, 2), (louder,   0, 3)),
     ]
     for row in layout:
         for args in row:

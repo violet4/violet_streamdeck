@@ -2,7 +2,7 @@ import subprocess
 import threading
 import time
 
-#import alsaaudio
+import alsaaudio
 
 from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QVBoxLayout, QPlainTextEdit
 from PyQt5.QtWidgets import QWidget, QShortcut, QApplication, QMessageBox
@@ -24,106 +24,106 @@ from utils import get_asset_path
 from typing import List
 
 
-# class VolumeWidget(Widget):
-#     increase_volume_button: Button
-#     decrease_volume_button: Button
-#     display_volume_button: Button
-#     muted: bool
-#     volume: str
-#     mixer: alsaaudio.Mixer
-#     _thread: threading.Thread
-#     def __init__(self, board:Board, style:ButtonStyle=ButtonStyle()):
-#         super().__init__(board, style)
-#         self.mixer = alsaaudio.Mixer()
-#         self.volume = self.get_current_volume()
-#         self.muted = self.getmute()
-#         self.display_volume_button = Button(self.create_mute_fn(), style=style)
-#         self.set_volume_str()
-#         self.increase_volume_button = Button(
-#             self.create_change_volume_fn(self.display_volume_button),
-#             text="Vol+", style=style
-#         )
-#         self.decrease_volume_button = Button(
-#             self.create_change_volume_fn(self.display_volume_button, decrease=True),
-#             text="Vol-", style=style
-#         )
-#         self._thread = threading.Thread(target=self.watch_volume, daemon=True)
-#         self._thread.start()
+class VolumeWidget(Widget):
+    increase_volume_button: Button
+    decrease_volume_button: Button
+    display_volume_button: Button
+    muted: bool
+    volume: str
+    mixer: alsaaudio.Mixer
+    _thread: threading.Thread
+    def __init__(self, board:Board, style:ButtonStyle=ButtonStyle()):
+        super().__init__(board, style)
+        self.mixer = alsaaudio.Mixer()
+        self.volume = self.get_current_volume()
+        self.muted = self.getmute()
+        self.display_volume_button = Button(self.create_mute_fn(), style=style)
+        self.set_volume_str()
+        self.increase_volume_button = Button(
+            self.create_change_volume_fn(self.display_volume_button),
+            text="Vol+", style=style
+        )
+        self.decrease_volume_button = Button(
+            self.create_change_volume_fn(self.display_volume_button, decrease=True),
+            text="Vol-", style=style
+        )
+        self._thread = threading.Thread(target=self.watch_volume, daemon=True)
+        self._thread.start()
 
-#     def watch_volume(self):
-#         pactl = subprocess.Popen(['pactl', 'subscribe'], stdout=subprocess.PIPE)
-#         sink_events = subprocess.Popen(['grep', '--line-buffered', 'sink'], stdin=pactl.stdout, stdout=subprocess.PIPE)
-#         last_volume = 0
-#         last_muted = 0
-#         while True:
-#             line = None
-#             if sink_events.stdout is not None:
-#                 line = sink_events.stdout.readline()
-#             if not line:
-#                 time.sleep(0.1)
-#                 continue
-#             volume = self.get_current_volume()
-#             muted = self.getmute()
-#             if volume == last_volume and muted == last_muted:
-#                 continue
-#             last_volume = volume
-#             last_muted = muted
-#             self.set_volume_str(volume, muted)
-
-
-#     def set_volume_str(self, volume=None, muted=None):
-#         if volume is None:
-#             volume = self.get_current_volume()
-#         volume = f'{volume}%'
-
-#         if muted is None:
-#             muted = self.getmute()
-
-#         text = f'muted\n({volume})' if muted else volume
-#         self.display_volume_button.set(text=text)
-
-#     def create_mute_fn(self):
-#         def toggle_mute(pressed):
-#             if not pressed:
-#                 return
-#             self.muted = not self.muted
-#             self.mixer.setmute(1 if self.muted else 0)
-#             self.set_volume_str(muted=self.muted)
-#         return toggle_mute
+    def watch_volume(self):
+        pactl = subprocess.Popen(['pactl', 'subscribe'], stdout=subprocess.PIPE)
+        sink_events = subprocess.Popen(['grep', '--line-buffered', 'sink'], stdin=pactl.stdout, stdout=subprocess.PIPE)
+        last_volume = 0
+        last_muted = 0
+        while True:
+            line = None
+            if sink_events.stdout is not None:
+                line = sink_events.stdout.readline()
+            if not line:
+                time.sleep(0.1)
+                continue
+            volume = self.get_current_volume()
+            muted = self.getmute()
+            if volume == last_volume and muted == last_muted:
+                continue
+            last_volume = volume
+            last_muted = muted
+            self.set_volume_str(volume, muted)
 
 
-#     def create_change_volume_fn(self, display_volume_button:Button, decrease:bool=False):
-#         def change_volume(pressed):
-#             if not pressed:
-#                 return
-#             char = '-' if decrease else '+'
-#             subprocess.check_output(
-#                 f"amixer set 'Master' 5%{char} | grep Right --color=never | tail -1|cut -d'[' -f2|cut -d']' -f1",
-#                 shell=True,
-#             ).decode().strip()
-#             self.set_volume_str()
-#         return change_volume
+    def set_volume_str(self, volume=None, muted=None):
+        if volume is None:
+            volume = self.get_current_volume()
+        volume = f'{volume}%'
 
-#     @staticmethod
-#     def is_muted():
-#         value = subprocess.check_output(
-#             f"amixer set 'Master' 0%- | grep Right --color=never | tail -1",
-#             shell=True,
-#         ).decode().strip()
-#         return '[off]' in value
+        if muted is None:
+            muted = self.getmute()
 
-#     def get_current_volume(self):
-#         while self.mixer.handleevents():
-#             pass
-#         return self.mixer.getvolume()[0]
+        text = f'muted\n({volume})' if muted else volume
+        self.display_volume_button.set(text=text)
 
-#     def getmute(self):
-#         return self.is_muted()
-#         # while self.mixer.handleevents():
-#         #     pass
-#         # mute = bool(self.mixer.getmute()[0])
-#         # print("mute", mute)
-#         # return mute
+    def create_mute_fn(self):
+        def toggle_mute(pressed):
+            if not pressed:
+                return
+            self.muted = not self.muted
+            self.mixer.setmute(1 if self.muted else 0)
+            self.set_volume_str(muted=self.muted)
+        return toggle_mute
+
+
+    def create_change_volume_fn(self, display_volume_button:Button, decrease:bool=False):
+        def change_volume(pressed):
+            if not pressed:
+                return
+            char = '-' if decrease else '+'
+            subprocess.check_output(
+                f"amixer set 'Master' 5%{char} | grep Right --color=never | tail -1|cut -d'[' -f2|cut -d']' -f1",
+                shell=True,
+            ).decode().strip()
+            self.set_volume_str()
+        return change_volume
+
+    @staticmethod
+    def is_muted():
+        value = subprocess.check_output(
+            f"amixer set 'Master' 0%- | grep Right --color=never | tail -1",
+            shell=True,
+        ).decode().strip()
+        return '[off]' in value
+
+    def get_current_volume(self):
+        while self.mixer.handleevents():
+            pass
+        return self.mixer.getvolume()[0]
+
+    def getmute(self):
+        return self.is_muted()
+        # while self.mixer.handleevents():
+        #     pass
+        # mute = bool(self.mixer.getmute()[0])
+        # print("mute", mute)
+        # return mute
 
 
 class BrightnessWidget(Widget):
