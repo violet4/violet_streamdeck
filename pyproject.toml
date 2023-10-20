@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "violet-streamdeck"
+version = "0.1.0"
+description = ""
+authors = ["Violet Eldridge <github@violet-mica.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+vsdlib = {git = "ssh://git@github.com/violet4/vsdlib.git"}
+ed-streamdeck = {git = "ssh://git@github.com/violet4/ed_streamdeck.git"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
