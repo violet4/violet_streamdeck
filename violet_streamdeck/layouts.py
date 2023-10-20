@@ -4,9 +4,10 @@ import time
 from vsdlib.board import Board, BoardLayout, SubLayout
 from vsdlib.buttons import Button, ButtonStyle
 from vsdlib.colors import reds, oranges, yellows, greens, blues, purples, black, pinks, indigos, violets
-from vsdlib.widgets import CalculatorWidget, BluetoothWidget, KeyPadWidget, ListWidget, VSCodeWidget
+from vsdlib.widgets import CalculatorWidget, BluetoothWidget, KeyPadWidget, VSCodeWidget
 
 from utils import get_asset_path
+from widgets import ListWidget
 
 
 class TimerLayout(SubLayout):
