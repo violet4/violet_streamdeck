@@ -9,6 +9,11 @@ readme = "README.md"
 python = "^3.11"
 vsdlib = {git = "ssh://git@github.com/violet4/vsdlib.git"}
 ed-streamdeck = {git = "ssh://git@github.com/violet4/ed_streamdeck.git"}
+pillow = "^10.1.0"
+requests = "^2.31.0"
+pyqt5 = "5.15.2"
+beautifulsoup4 = "^4.12.2"
+pyalsaaudio = "^0.10.0"
 
 
 [build-system]

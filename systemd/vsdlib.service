@@ -1,0 +1,13 @@
+[Unit]
+Description=Start Tmux session for violetdeck
+After=network.target
+
+[Service]
+Type=forking
+User=violet
+Group=violet
+Restart=no
+ExecStart=/home/violet/git/violet/vsdlib/systemd/tmux_start.sh
+
+[Install]
+WantedBy=multi-user.target

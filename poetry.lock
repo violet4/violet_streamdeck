@@ -541,12 +541,7 @@ files = []
 develop = false
 
 [package.dependencies]
-beautifulsoup4 = "*"
 emoji = "*"
-pillow = "*"
-pyalsaaudio = "*"
-pyqt5 = "5.15.2"
-requests = "*"
 sqlalchemy = "*"
 streamdeck = {git = "git@github.com:abcminiuser/python-elgato-streamdeck.git", tag = "0.9.4"}
 
@@ -554,9 +549,9 @@ streamdeck = {git = "git@github.com:abcminiuser/python-elgato-streamdeck.git", t
 type = "git"
 url = "ssh://git@github.com/violet4/vsdlib.git"
 reference = "HEAD"
-resolved_reference = "a0502303f125bdd5f69c1c4b49aad239a8574fc1"
+resolved_reference = "8847cd3465cb1ce514cfcf51de434a2b3d409067"
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "464906d768a1f1f390474df8bab16e6b438b9253a5df7970a005ee32134726ff"
+content-hash = "e95840da3e02e7d2b2a635fb178115129e107156beebc6db801b7a466404df71"
