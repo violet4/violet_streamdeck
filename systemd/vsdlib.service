@@ -7,7 +7,7 @@ Type=forking
 User=violet
 Group=violet
 Restart=no
-ExecStart=/home/violet/git/violet/streamdeck/violet_streamdeck/systemd/tmux_start.sh
+ExecStart=/home/violet/git/violet/hw/streamdeck/violet_streamdeck/systemd/tmux_start.sh
 
 [Install]
 WantedBy=graphical.target

@@ -107,10 +107,9 @@ async def run_main():
     TODO:"off"/"dark" mode - brightness 0, all buttons become "wake up" buttons
     """
     board = Board()
+    board.set_rotation(90)
+    main_layout = board.create_layout()
 
-    BoardLayout.initialize(board)
-
-    main_layout = BoardLayout()
     # main_layout_button: Button = main_layout.create_return_button(board, "< Home")
 
     calc = CalcLayout(board, main_layout)
@@ -242,7 +241,8 @@ async def run_main():
         except:
             print("failed to reset button backgrounds")
             pass
-        board.close()
+        finally:
+            board.close()
     return True
 
 
