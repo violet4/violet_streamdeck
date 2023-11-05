@@ -1,0 +1,8 @@
+widgets:
+    calculator:
+        class: CalcLayout
+
+
+main_layout:
+    c0:
+        r1: calculator.button
