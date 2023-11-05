@@ -1,8 +1,109 @@
+board_settings:
+    rotation: 90
+
+buttons:
+    terminal:
+        image: Terminal.jpg
+        activate_application:
+            - xfce4-terminal
+            - /usr/bin/xfce4-terminal
+    gimp:
+        image: Terminal.jpg
+        activate_application:
+            - gimp
+            - /usr/bin/gimp
+    thunderbird:
+        image: Terminal.jpg
+        activate_application:
+            - betterbird
+            - /home/violet/Downloads/betterbird/betterbird/betterbird
+    firefox:
+        image: Terminal.jpg
+        activate_application:
+            - firefox
+            - /usr/bin/firefox-bin --ProfileManager
+    thunar:
+        image: Terminal.jpg
+        activate_application:
+            - thunar
+            - /usr/bin/thunar
+    joplin:
+        image: Terminal.jpg
+        activate_application:
+            - joplin
+            - /home/violet/Downloads/Joplin-2.13.2.AppImage
+    keepassxc:
+        image: Terminal.jpg
+        activate_application:
+            - keepassxc
+            - /usr/bin/keepassxc
+    discord:
+        image: Terminal.jpg
+        activate_application:
+            - discord
+            - /usr/bin/discord
+    pavucontrol:
+        image: Terminal.jpg
+        activate_application:
+            - pavucontrol
+            - /usr/bin/pavucontrol
+    minecraft:
+        image: Terminal.jpg
+        activate_application:
+            - minecraft
+            - ATLauncher'], '/usr/bin/ATLauncher
+
 widgets:
+    volume:
+        class: VolumeWidget
+    media:
+        class: MediaControlWidget
+
+layouts:
     calculator:
         class: CalcLayout
-
+    bluetooth:
+        class: BluetoothLayout
+    positions:
+        class: PositionLayout
+    vscode:
+        class: VSCodeLayout
 
 main_layout:
     c0:
-        r1: calculator.button
+        r0: positions.button
+        r1: volume.decrease_volume_button
+        r2: volume.display_volume_button
+        r3: volume.increase_volume_button
+    c1:
+        r0: bluetooth.button
+        r1: media.prevtrack
+        r2: media.playpause
+        r3: media.nexttrack
+    c3:
+        r0: calculator.button
+            # optional, since CalcLayout already handles this
+            #image: calculator.jpg
+        r1: vscode.button
+        r2: terminal
+        r3: firefox
+    c4:
+        r0:
+        r1: minecraft
+        r2: gimp
+        r3: keepassxc
+    c5:
+        r0: TODO audio compression!
+        r1:
+        r2: thunar
+        r3: pavucontrol
+    c6:
+        r0: 
+        r1: brightness.down
+        r2: brightness.display
+        r3: brightness.up
+    c7:
+        r0: restart
+        r1: discord_toggle
+        r2: datetime
+        r3: alphabet.button
