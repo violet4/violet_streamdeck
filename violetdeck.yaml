@@ -8,47 +8,47 @@ buttons:
             - xfce4-terminal
             - /usr/bin/xfce4-terminal
     gimp:
-        image: Terminal.jpg
+        image: gimp.jpg
         activate_application:
             - gimp
             - /usr/bin/gimp
     thunderbird:
-        image: Terminal.jpg
+        image: mail.jpg
         activate_application:
             - betterbird
             - /home/violet/Downloads/betterbird/betterbird/betterbird
     firefox:
-        image: Terminal.jpg
+        image: firefox.jpg
         activate_application:
             - firefox
             - /usr/bin/firefox-bin --ProfileManager
     thunar:
-        image: Terminal.jpg
+        image: thunar.jpg
         activate_application:
             - thunar
             - /usr/bin/thunar
     joplin:
-        image: Terminal.jpg
+        image: joplin.jpg
         activate_application:
             - joplin
             - /home/violet/Downloads/Joplin-2.13.2.AppImage
     keepassxc:
-        image: Terminal.jpg
+        image: KeePassXC.jpg
         activate_application:
             - keepassxc
             - /usr/bin/keepassxc
     discord:
-        image: Terminal.jpg
+        image: discord-logo.jpg
         activate_application:
             - discord
             - /usr/bin/discord
     pavucontrol:
-        image: Terminal.jpg
+        image: pulseaudio.jpg
         activate_application:
             - pavucontrol
             - /usr/bin/pavucontrol
     minecraft:
-        image: Terminal.jpg
+        image: minecraft.jpg
         activate_application:
             - minecraft
             - ATLauncher'], '/usr/bin/ATLauncher
@@ -82,8 +82,6 @@ main_layout:
         r3: media.nexttrack
     c3:
         r0: calculator.button
-            # optional, since CalcLayout already handles this
-            #image: calculator.jpg
         r1: vscode.button
         r2: terminal
         r3: firefox
