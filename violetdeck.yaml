@@ -50,8 +50,10 @@ buttons:
     minecraft:
         image: minecraft.jpg
         activate_application:
-            - minecraft
-            - ATLauncher'], '/usr/bin/ATLauncher
+            arg0:
+                - minecraft
+                - ATLauncher
+            arg1: /usr/bin/ATLauncher
 
 widgets:
     volume:
