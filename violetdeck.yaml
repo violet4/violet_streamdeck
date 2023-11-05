@@ -5,55 +5,55 @@ buttons:
     terminal:
         image: Terminal.jpg
         activate_application:
-            - xfce4-terminal
-            - /usr/bin/xfce4-terminal
+            app_name: xfce4-terminal
+            binary_path: /usr/bin/xfce4-terminal
     gimp:
         image: gimp.jpg
         activate_application:
-            - gimp
-            - /usr/bin/gimp
+            app_name: gimp
+            binary_path: /usr/bin/gimp
     thunderbird:
         image: mail.jpg
         activate_application:
-            - betterbird
-            - /home/violet/Downloads/betterbird/betterbird/betterbird
+            app_name: betterbird
+            binary_path: /home/violet/Downloads/betterbird/betterbird/betterbird
     firefox:
         image: firefox.jpg
         activate_application:
-            - firefox
-            - /usr/bin/firefox-bin --ProfileManager
+            app_name: firefox
+            binary_path: /usr/bin/firefox-bin --ProfileManager
     thunar:
         image: thunar.jpg
         activate_application:
-            - thunar
-            - /usr/bin/thunar
+            app_name: thunar
+            binary_path: /usr/bin/thunar
     joplin:
         image: joplin.jpg
         activate_application:
-            - joplin
-            - /home/violet/Downloads/Joplin-2.13.2.AppImage
+            app_name: joplin
+            binary_path: /home/violet/Downloads/Joplin-2.13.2.AppImage
     keepassxc:
         image: KeePassXC.jpg
         activate_application:
-            - keepassxc
-            - /usr/bin/keepassxc
+            app_name: keepassxc
+            binary_path: /usr/bin/keepassxc
     discord:
         image: discord-logo.jpg
         activate_application:
-            - discord
-            - /usr/bin/discord
+            app_name: discord
+            binary_path: /usr/bin/discord
     pavucontrol:
         image: pulseaudio.jpg
         activate_application:
-            - pavucontrol
-            - /usr/bin/pavucontrol
+            app_name: pavucontrol
+            binary_path: /usr/bin/pavucontrol
     minecraft:
         image: minecraft.jpg
         activate_application:
-            arg0:
+            app_name:
                 - minecraft
                 - ATLauncher
-            arg1: /usr/bin/ATLauncher
+            binary_path: /usr/bin/ATLauncher
 
 widgets:
     volume:
