@@ -17,16 +17,19 @@ import argparse
 from typing import Optional
 import logging
 
-from vsdlib.board import Board, BoardLayout
+import requests
+
+from vsdlib.board import Board
 from vsdlib.buttons import Button, ButtonStyle
 from vsdlib.colors import reds, oranges, yellows, greens, blues, purples, black, pinks, indigos, violets
 
 from vsdlib.contrib.quicksilver import (
     options,
     activate_terminal, activate_thunderbird, activate_firefox,
+    activate_firefox_profiles,
     activate_thunar, activate_pavucontrol,
     minimize_current_window, activate_joplin, activate_keepassxc,
-    activate_discord, activate_gimp, activate_minecraft
+    activate_discord, activate_gimp, activate_minecraft, activate_firebot
 )
 from vsdlib.widgets import MediaControlWidget, DiscordWidget, ClockWidget
 
@@ -99,6 +102,11 @@ def setup_audio_compression():
         shell=True,
     )
 
+def create_power_supply_button(on):
+    def make_call():
+        requests.put('http://localhost:5000/arduino/power', json={'power':on})
+    return Button(make_call, style=ButtonStyle(image_path=get_asset_path(f'lightbulb_{on}.jpg')))
+
 
 async def run_main():
 # def run_main():
@@ -135,24 +143,30 @@ async def run_main():
     discord_image_path = get_asset_path('discord-logo.jpg')
     joplin_image_path = get_asset_path('joplin.jpg')
     firefox_image_path = get_asset_path('firefox.jpg')
+    firefox_profiles_image_path = get_asset_path('firefox_profiles.jpg')
     thunar_image_path = get_asset_path('thunar.jpg')
     keepassxc_image_path = get_asset_path('KeePassXC.jpg')
     terminal_image_path = get_asset_path('Terminal.jpg')
     # betterbird_image_path = get_asset_path('betterbird.jpg')
     betterbird_image_path = get_asset_path('mail.jpg')
+    firebot_image_path = get_asset_path('firebot.jpg')
 
     discord_button = Button(activate_discord, text="Discord", style=ButtonStyle(**pinks, image_path=discord_image_path))
+    firebot_button = Button(activate_firebot, text="Firebot", style=ButtonStyle(**pinks, image_path=firebot_image_path))
     joplin_button = Button(activate_joplin, text="Joplin", style=ButtonStyle(**pinks, image_path=joplin_image_path))
     keepass_button = Button(activate_keepassxc, text="Kee\nPass\nXC", style=ButtonStyle(**pinks, image_path=keepassxc_image_path))
     terminal_button = Button(activate_terminal, text="Terminal", style=ButtonStyle(**pinks, image_path=terminal_image_path))
     thunderbird_button = Button(activate_thunderbird, text="BB", style=ButtonStyle(**pinks, image_path=betterbird_image_path))
     firefox_button = Button(activate_firefox, text="Firefox", style=ButtonStyle(**pinks, image_path=firefox_image_path))
+    firefox_profiles_button = Button(activate_firefox_profiles, text="Firefox\nProfiles", style=ButtonStyle(**pinks, image_path=firefox_profiles_image_path))
     thunar_button = Button(activate_thunar, text="Thunar", style=ButtonStyle(**pinks, image_path=thunar_image_path))
     minimize_button = Button(do_if_pressed(minimize_current_window), text="Min", style=ButtonStyle(image_path=get_asset_path('minimize.jpg')))
     audio_compress_button = Button(do_if_pressed(setup_audio_compression), text="Audio\nCompress", style=ButtonStyle(image_path=get_asset_path('audio_compress.jpg')))
     gimp_button = Button(activate_gimp, style=ButtonStyle(image_path=get_asset_path('gimp.jpg')))
     minecraft_button = Button(activate_minecraft, style=ButtonStyle(image_path=get_asset_path('minecraft.jpg')))
     pavucontrol_button = Button(activate_pavucontrol, style=ButtonStyle(image_path=get_asset_path('pulseaudio.jpg')))
+    power_supply_on_button = create_power_supply_button('on')
+    power_supply_off_button = create_power_supply_button('off')
 
     # main page top bar - x,0
     main_layout.set(position_layout.button,  0, 0)
@@ -163,7 +177,6 @@ async def run_main():
 
     # main_layout.set(TODO.button, 4)
     main_layout.set(create_restart_button(board, style=ButtonStyle(**reds, image_path=get_asset_path('restart.jpg'))), 7, 0)
-    main_layout.set(board.debug_button, 6, 0)
 
     # second row - x,1
 
@@ -188,18 +201,20 @@ async def run_main():
     main_layout.set(alphabet,            7, 3)
 
     # main_layout.set(atimelogger.button,  6, 2)
+    main_layout.set(recur_tasks.button, 6, 0)
 
     main_layout.set(vscode.button,       3, 1)
     main_layout.set(terminal_button,     3, 2)
     main_layout.set(firefox_button,      3, 3)
     main_layout.set(pavucontrol_button,        5, 3)
 
-    main_layout.set(recur_tasks.button, 4, 0)
+    main_layout.set(firebot_button, 4, 0)
     main_layout.set(minecraft_button,     4, 1)
     main_layout.set(gimp_button,     4, 2)
     main_layout.set(keepass_button,     4, 3)
     main_layout.set(audio_compress_button,        5, 0)
     main_layout.set(thunar_button,     5, 2)
+    main_layout.set(firefox_profiles_button,     5, 1)
 
     # main_layout.set(fullscreen,          3, 2)
 
@@ -216,7 +231,8 @@ async def run_main():
     # 0,2 volume down
 
     layout = [
-        ((dim,     6, 1), (brightness, 6, 2), (brighten, 6, 3)),
+        # ((dim,     6, 1), (brightness, 6, 2), (brighten, 6, 3)),
+        ((power_supply_off_button,     6, 1), (power_supply_on_button, 6, 2)),
         ((back,    1, 1), (pp,         1, 2), (forward,  1, 3)),
         ((quieter, 0, 1), (volume,     0, 2), (louder,   0, 3)),
     ]
