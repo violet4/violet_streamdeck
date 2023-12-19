@@ -103,8 +103,12 @@ def setup_audio_compression():
     )
 
 def create_power_supply_button(on):
-    def make_call():
-        requests.put('http://localhost:5000/arduino/power', json={'power':on})
+    def make_call(pressed:bool):
+        if not pressed:
+            return
+        resp = requests.put('http://localhost:7321/api/arduino/power', json={'power':on})
+        if resp.status_code != 200:
+            print(resp.status_code, resp.json())
     return Button(make_call, style=ButtonStyle(image_path=get_asset_path(f'lightbulb_{on}.jpg')))
 
 
@@ -169,10 +173,9 @@ async def run_main():
     power_supply_off_button = create_power_supply_button('off')
 
     # main page top bar - x,0
-    main_layout.set(position_layout.button,  0, 0)
-    main_layout.set(calc.button,             3, 0)
+    main_layout.set(minimize_button,  0, 0)
     main_layout.set(bluetooth.button,        1, 0)
-    main_layout.set(minimize_button,         2, 0)
+    main_layout.set(position_layout.button,         2, 0)
     # main_layout.set(elite_dangerous.button,  5, 1)
 
     # main_layout.set(TODO.button, 4)
@@ -204,11 +207,11 @@ async def run_main():
     main_layout.set(recur_tasks.button, 6, 0)
 
     main_layout.set(vscode.button,       3, 1)
-    main_layout.set(terminal_button,     3, 2)
     main_layout.set(firefox_button,      3, 3)
     main_layout.set(pavucontrol_button,        5, 3)
 
-    main_layout.set(firebot_button, 4, 0)
+    main_layout.set(firebot_button,             3, 0)
+    main_layout.set(calc.button, 4, 0)
     main_layout.set(minecraft_button,     4, 1)
     main_layout.set(gimp_button,     4, 2)
     main_layout.set(keepass_button,     4, 3)
@@ -219,7 +222,8 @@ async def run_main():
     # main_layout.set(fullscreen,          3, 2)
 
     main_layout.set(joplin_button,       2, 1)
-    main_layout.set(thunderbird_button,  2, 2)
+    main_layout.set(thunderbird_button,     3, 2)
+    main_layout.set(terminal_button,  2, 2)
     main_layout.set(discord_button,      2, 3)
     # main_layout.set(med_tracker.button,  3, 3)
 

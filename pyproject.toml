@@ -7,14 +7,17 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-vsdlib = {git = "ssh://git@github.com/violet4/vsdlib.git"}
+#vsdlib = {git = "ssh://git@github.com/violet4/vsdlib.git"}
+vsdlib = {path = "../vsdlib", develop=true}
 #ed-streamdeck = {path = "ed_streamdeck", develop = true}
-ed-streamdeck = {git = "ssh://localhost/git/violet/violet_streamdeck/ed_streamdeck"}
+ed-streamdeck = {path = "../ed_streamdeck"}
+#ed-streamdeck = {git = "ssh://localhost/home/violet/git/violet/hw/streamdeck/violet_streamdeck/ed_streamdeck"}
 pillow = "^10.1.0"
 requests = "^2.31.0"
 pyqt5 = "5.15.2"
 beautifulsoup4 = "^4.12.2"
 pyalsaaudio = "^0.10.0"
+pynput = "^1.7.6"
 
 
 [build-system]
